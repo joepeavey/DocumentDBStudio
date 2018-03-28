@@ -113,7 +113,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             cbEnableScan = new CheckBox
             {
                 Text = "EnableScanInQuery",
-                CheckState = CheckState.Indeterminate
+                CheckState = CheckState.Unchecked
             };
             ToolStripControlHost host1 = new ToolStripControlHost(cbEnableScan);
             feedToolStrip.Items.Insert(3, host1);
@@ -121,7 +121,7 @@ namespace Microsoft.Azure.DocumentDBStudio
             cbEnableCrossPartitionQuery = new CheckBox
             {
                 Text = "EnableCrossPartitionQuery",
-                CheckState = CheckState.Indeterminate
+                CheckState = CheckState.Checked
             };
             ToolStripControlHost host2 = new ToolStripControlHost(cbEnableCrossPartitionQuery);
             feedToolStrip.Items.Insert(4, host2);
@@ -812,8 +812,16 @@ namespace Microsoft.Azure.DocumentDBStudio
             operationType = operation;
             this.resourceType = resourceType;
             currentOperationCallback = func;
-            tabCrudContext.Text = string.Format("{0} {1}", operation, resourceType);
-            tbCrudContext.Text = bodytext;
+            if (operation == OperationType.Query)
+            {
+                tabCrudContext.Text = string.Format("{0}", node.Text);
+            }
+            else
+            {
+                tabCrudContext.Text = string.Format("{0} {1}", operation, resourceType);
+            }
+
+            // tbCrudContext.Text = bodytext;
 
             SetToolStripBtnExecuteTooltip(true);
             toolStripBtnExecute.Enabled = true;
